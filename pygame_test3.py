@@ -42,7 +42,7 @@ moving_platform = pygame.Surface((50, 10))
 moving_platform_rect = moving_platform.get_rect(topleft = (250, 200))
 moving_platform.fill('brown')
 
-youwin_background = pygame.Surface((1000,1000))
+youwin_background = pygame.Surface((500,500))
 youwin_background.fill('black')
 
 youwin = mainfont.render('you win', True, 'white')
@@ -80,8 +80,7 @@ while True:
     if playerrect.colliderect(sunrect):
         screen.blit(youwin_background, (0,0))
         screen.blit(youwin, (150,150))
-        time.sleep(10)
-        break      
+        break
     screen.blit(skysurf, skyrect)    
     screen.blit(groundsurf, groundrect)
     screen.blit(woodsurf, woodrect)
