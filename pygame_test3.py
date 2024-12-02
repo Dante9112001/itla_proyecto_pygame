@@ -1,10 +1,13 @@
 import pygame
 import sys
-import random 
+import random
+import time                      
 pygame.init()
 
 
 clock = pygame.time.Clock()
+
+mainfont = pygame.font.Font(None, 50)
 
 screen = pygame.display.set_mode((400, 400))
 skysurf = pygame.Surface((400,400))
@@ -35,10 +38,21 @@ punterosurf = pygame.Surface((20,20))
 punterorect = punterosurf.get_rect(midtop = (0,0))
 punterosurf.fill('purple')
 
-    
+moving_platform = pygame.Surface((50, 10))
+moving_platform_rect = moving_platform.get_rect(topleft = (250, 200))
+moving_platform.fill('brown')
+
+youwin_background = pygame.Surface((1000,1000))
+youwin_background.fill('black')
+
+youwin = mainfont.render('you win', True, 'white')
+def ganar():
+    if playerrect.colliderect(sunrect):
+        screen.blit(youwin_background, (0,0))
+        screen.blit(youwin, (0,0 ))   
 def gravedad_jugador(playerspeedY):
-    playerspeedY = 4
-    if playerrect.colliderect(groundrect):
+    playerspeedY = 6
+    if playerrect.colliderect(groundrect) or playerrect.colliderect(moving_platform_rect):
         playerspeedY = 0
     playerrect.y += playerspeedY
 
@@ -52,9 +66,9 @@ def playermovement(button_press):
     elif button_press[pygame.K_a]:
         playerrect.x -= 2
     elif button_press[pygame.K_w] and playerrect.colliderect(groundrect):
-        playerrect.y -= 50 
-
-    
+        playerrect.y -= 100 
+    elif button_press[pygame.K_w] and playerrect.colliderect(moving_platform_rect):
+        playerrect.y -= 100 
 def salida ():
     
     for event in pygame.event.get():
@@ -63,6 +77,11 @@ def salida ():
 while True:
     gravedad_jugador(0)
     playermovement(0)
+    if playerrect.colliderect(sunrect):
+        screen.blit(youwin_background, (0,0))
+        screen.blit(youwin, (150,150))
+        time.sleep(10)
+        break      
     screen.blit(skysurf, skyrect)    
     screen.blit(groundsurf, groundrect)
     screen.blit(woodsurf, woodrect)
@@ -70,11 +89,11 @@ while True:
     screen.blit(sunsurf, sunrect)
     screen.blit(playersurf, playerrect)
     screen.blit(punterosurf,pygame.mouse.get_pos())
+    screen.blit(moving_platform, moving_platform_rect)
+  
     salida()
     
-    if punterorect.collidepoint():
-        if pygame.mouse.get_pressed:
-            print('collision')
+
     
     clock.tick(30)
     pygame.display.update()
