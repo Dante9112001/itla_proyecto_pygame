@@ -74,13 +74,14 @@ def salida ():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
+def change ():
+    if playerrect.colliderect(sunrect):
+        open("proyecto_pygame_itla.py")
+        exec("proyecto_pygame_itla.py")
 while True:
+    change()
     gravedad_jugador(0)
     playermovement(0)
-    if playerrect.colliderect(sunrect):
-        screen.blit(youwin_background, (0,0))
-        screen.blit(youwin, (150,150))
-        break
     screen.blit(skysurf, skyrect)    
     screen.blit(groundsurf, groundrect)
     screen.blit(woodsurf, woodrect)
